@@ -2,7 +2,7 @@
 
 An end-to-end NLP project focused on fine-tuning and evaluating small language models on an imbalanced temporal link classification dataset. This project contrasts the performance and configuration trade-offs between a Causal Decoder model (Pythia-70M) and a Bidirectional Encoder model (DistilBERT).
 
-## 📌 Project Overview
+##  Project Overview
 The task is to predict whether a temporal link exists (`YES` or `NO`) between two highlighted event or time spans within a given sentence. 
 * **Dataset:** `mdg-nlp/tlink-extr-classification-sentence-2-label` on HuggingFace
 * **Input Formatting:** Spans are marked using XML-style tags: `<e1>`, `<e2>` for events and `<t1>`, `<t2>` for time expressions.
@@ -19,7 +19,7 @@ Because of this severe imbalance, standard classification accuracy is a misleadi
 
 ---
 
-## 🧠 Models & Architecture Solutions
+##  Models & Architecture Solutions
 
 ### 1. Pythia-70M (Causal Decoder)
 Pythia-70M (70 million parameters) was chosen for its training efficiency on limited hardware. Because decoder-only architectures are fundamentally designed for text generation rather than classification, **five distinct workarounds** were implemented to adapt the pipeline:
@@ -34,7 +34,7 @@ As an architectural baseline, `distilbert-base-uncased` (66M parameters) was int
 
 ---
 
-## 🛠️ Training Setup & Loss Engineering
+##  Training Setup & Loss Engineering
 * **Environment:** Google Colab (Free Tier T4 GPU)
 * **Framework:** HuggingFace Transformers & PyTorch
 * **Hyperparameters:** Learning rate of `2e-6`, batch size of `32`, max sequence length of `256`, and early stopping with a patience of 3.
@@ -44,7 +44,7 @@ As an architectural baseline, `distilbert-base-uncased` (66M parameters) was int
 
 ---
 
-## 📊 Experimental Results
+##  Experimental Results
 
 ### Model Performance Comparison
 
@@ -67,14 +67,14 @@ An evaluation was performed comparing the runtime hardware environments availabl
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
 * `tlink_training_colab.ipynb`: Notebook containing the comprehensive dataset pipeline, custom `WeightedTrainer` implementation, and the Pythia-70M fine-tuning process.
 * `tlink_distilbert_comparison.ipynb`: Notebook tracking the baseline run and comparative configuration of the DistilBERT model.
 * *Note: Saved weights (`tlink_model/` and `tlink_model_distilbert/`) are backed up via Google Drive and local zip storage due to file-size constraints.*
 
 ---
 
-## 💻 How to Run Inference
+##  How to Run Inference
 
 To load the trained checkpoint locally and execute a forward pass:
 
