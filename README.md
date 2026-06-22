@@ -70,6 +70,7 @@ An evaluation was performed comparing the runtime hardware environments availabl
 ##  Repository Structure
 * `tlink_training_colab.ipynb`: Notebook containing the comprehensive dataset pipeline, custom `WeightedTrainer` implementation, and the Pythia-70M fine-tuning process.
 * `tlink_distilbert_comparison.ipynb`: Notebook tracking the baseline run and comparative configuration of the DistilBERT model.
+* `TLINK_Project_Summary.docx`: Comprehensive overview document containing detailed dataset diagnostics, architecture specific workarounds, and hardware benchmarks.
 * *Note: Saved weights (`tlink_model/` and `tlink_model_distilbert/`) are backed up via Google Drive and local zip storage due to file-size constraints.*
 
 ---
