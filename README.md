@@ -55,4 +55,36 @@ As an architectural baseline, `distilbert-base-uncased` (66M parameters) was int
 | **Accuracy** | 0.9101 | 0.9621 | Heavily skewed by majority class performance. |
 | **Macro F1** | 0.6673 | 0.8853 | Primary benchmark for balanced evaluation. |
 | **F1 (YES Class)** | 0.9515 | 0.9792 | Performance on majority data. |
-| **F1 (NO Class)**
+| **F1 (NO Class)** | 0.3830 | 0.7914 | Performance on minority data. |
+| **Training Speed** | ~10 min/epoch | ~20 min/epoch | DistilBERT is slower due to bidirectional full-attention overhead. |
+| **Workarounds** | 5 needed | 1 needed | Encoders are much simpler to deploy for this task. |
+
+### Hardware Benchmarking: T4 GPU vs. TPU v5e-1
+An evaluation was performed comparing the runtime hardware environments available on Google Colab:
+* **T4 GPU:** Native PyTorch compatibility, proving highly efficient for models under 1B parameters.
+* **TPU v5e-1:** While offering a 3x higher theoretical peak throughput (~197 TFLOPS vs ~65 TFLOPS), the XLA compilation overhead completely negated any hardware acceleration advantages for a small 70M model.
+* **Conclusion:** The T4 GPU is the optimal architecture choice for this scale. TPUs become advantageous primarily when parameters scale beyond 1B over prolonged training intervals.
+
+---
+
+## 📂 Repository Structure
+* `tlink_training_colab.ipynb`: Notebook containing the comprehensive dataset pipeline, custom `WeightedTrainer` implementation, and the Pythia-70M fine-tuning process.
+* `tlink_distilbert_comparison.ipynb`: Notebook tracking the baseline run and comparative configuration of the DistilBERT model.
+* *Note: Saved weights (`tlink_model/` and `tlink_model_distilbert/`) are backed up via Google Drive and local zip storage due to file-size constraints.*
+
+---
+
+## 💻 How to Run Inference
+
+To load the trained checkpoint locally and execute a forward pass:
+
+```python
+from transformers import pipeline
+
+# Load the trained classifier pipeline
+clf = pipeline('text-classification', model='./tlink_model')
+
+# Run inference on a raw input sentence containing span tags
+sample_input = "The department <e1>said</e1> <t1>Wednesday</t1>..."
+prediction = clf(sample_input)
+print(prediction)
